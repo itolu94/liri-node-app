@@ -1,9 +1,3 @@
-var command = process.argv[2];
-var request = process.argv[3];
-
-
-
-
 // variables and requirements needed for twitter api
 var Twitter = require('twitter');
 var twitterCredentials = require('./keys.js');
@@ -15,21 +9,25 @@ var client = new Twitter({
     access_token_secret: keys.access_token_secret
 });
 
-
 // variables needed for spotify
 var spotify = require('spotify');
-
-
+   
+// npm need for omdb
 var requestNPM = require('request');
 
+// used for do-what-it-says
 var fs = require('fs')
+
+determines the 
+var command = process.argv[2];
+var request = process.argv[3];
 
 
 switch (command) {
     case 'my-tweets':
         var params = { screen_name: 'tolu_idowu', count: 20 };
 
-        client.get('favorites/list', params, function(error, tweets, response) {
+        client.get('search/tweets', params, function(error, tweets, response) {
             for (var i = 0; i < tweets.length; i++) {
                 console.log('________________________________________________________________')
                 console.log(tweets[i].text)
