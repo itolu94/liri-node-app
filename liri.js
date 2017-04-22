@@ -2,35 +2,34 @@
 var Twitter = require('twitter');
 var twitterCredentials = require('./keys.js');
 var keys = twitterCredentials.twitterKeys
-var client = new Twitter({
-    consumer_key: keys.consumer_key,
-    consumer_secret: keys.consumer_secret,
-    access_token_key: keys.access_token_key,
-    access_token_secret: keys.access_token_secret
-});
+var client = new Twitter(keys);
 
-// variables needed for spotify
+
+// require spotify package
 var spotify = require('spotify');
-   
+
 // npm need for omdb
 var requestNPM = require('request');
 
 // used for do-what-it-says
 var fs = require('fs')
 
-determines the 
+
 var command = process.argv[2];
 var request = process.argv[3];
 
-
+// determine which command the user wants to run
 switch (command) {
     case 'my-tweets':
         var params = { screen_name: 'tolu_idowu', count: 20 };
 
-        client.get('search/tweets', params, function(error, tweets, response) {
+        client.get('statuses/user_timeline', params, function(error, tweets, response) {
             for (var i = 0; i < tweets.length; i++) {
-                console.log('________________________________________________________________')
-                console.log(tweets[i].text)
+                console.log('________________________________________________________________');
+                console.log('');
+                console.log(tweets[i].text);
+                console.log("Date: " + tweets[i].created_at);
+                console.log('');
             }
         })
         break;
@@ -106,4 +105,21 @@ function omdbRequest(queryUrl) {
             console.log("Rotton Tomatoes Rating: " + JSON.parse(body).tomatoURL);
         }
     });
+}
+
+if (request !== undefined) {
+
+    fs.appendFile('log.txt', "," + command + ' "' + request + '"', function(err) {
+        if (err) {
+            console.log("An error occured: " + err);
+        }
+
+    })
+} else {
+    fs.appendFile('log.txt', "," + command, function(err) {
+        if (err) {
+            console.log("An error occured: " + err);
+        }
+
+    })
 }
