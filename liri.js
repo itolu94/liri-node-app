@@ -27,7 +27,7 @@ switch (command) {
             for (var i = 0; i < tweets.length; i++) {
                 console.log('________________________________________________________________');
                 console.log('');
-                console.log(tweets[i].text);
+                console.log('Tweeet ' + (i+1) + ': ' + tweets[i].text);
                 console.log("Date: " + tweets[i].created_at);
                 console.log('');
             }
@@ -39,6 +39,7 @@ switch (command) {
             var queryUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&tomatoes=true&r=json";
             omdbRequest(queryUrl);
         } else {
+            // replaces spaces with +
             movieTitle = request.replace(/ /g, '+');
             var queryUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&tomatoes=true&r=json";
             omdbRequest(queryUrl);
@@ -64,8 +65,8 @@ switch (command) {
     case 'HELP':
         console.log('Here a list of commands I can take:');
         console.log("1. 'my-tweets'");
-        console.log("2. 'spotify-this-song'");
-        console.log("3.  'movie-this' ");
+        console.log("2. 'spotify-this-song' '<Song Name Here>' ");
+        console.log("3.  'movie-this' '<Movie Name Here>' ");
         console.log("4. 'do-what-it-says' ");
         break;
 
@@ -76,7 +77,7 @@ switch (command) {
 }
 
 
-
+// handles request to spotify API using spotify NPM 
 function spotifyRequest(songSearch) {
     spotify.search({ type: 'track', query: songSearch }, function(err, data) {
         if (!err) {
@@ -91,6 +92,7 @@ function spotifyRequest(songSearch) {
 
 };
 
+// recieves the queryUrl and  then uses request packages to use OMDB apis
 function omdbRequest(queryUrl) {
     requestNPM(queryUrl, function(error, response, body) {
 
@@ -107,6 +109,7 @@ function omdbRequest(queryUrl) {
     });
 }
 
+// a request is made, we record the command and the request
 if (request !== undefined) {
 
     fs.appendFile('log.txt', "," + command + ' "' + request + '"', function(err) {
@@ -115,6 +118,7 @@ if (request !== undefined) {
         }
 
     })
+    // else, we just log the command
 } else {
     fs.appendFile('log.txt', "," + command, function(err) {
         if (err) {
