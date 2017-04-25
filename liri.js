@@ -1,3 +1,6 @@
+'use strict';
+
+
 // variables and requirements needed for twitter api
 var Twitter = require('twitter');
 var twitterCredentials = require('./keys.js');
@@ -21,8 +24,7 @@ var request = process.argv[3];
 // determine which command the user wants to run
 switch (command) {
     case 'my-tweets':
-        var params = { screen_name: 'tolu_idowu', count: 20 };
-
+        var params = { screen_name: 'KingJames', count: 20 };
         client.get('statuses/user_timeline', params, function(error, tweets, response) {
             for (var i = 0; i < tweets.length; i++) {
                 console.log('________________________________________________________________');
