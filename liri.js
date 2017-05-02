@@ -6,7 +6,7 @@ var Twitter = require('twitter');
 var twitterCredentials = require('./keys.js');
 var keys = twitterCredentials.twitterKeys
 var client = new Twitter(keys);
-
+var movieTitle;
 
 // require spotify package
 var spotify = require('spotify');
